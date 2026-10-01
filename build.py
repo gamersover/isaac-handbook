@@ -74,10 +74,13 @@ shutil.copytree(root/'assets',root/'dist/assets',dirs_exist_ok=True)
 shutil.copyfile(root/'static/_headers',root/'dist/_headers')
 # Keep icons identical in local previews and production. The root ICO also
 # serves browsers that request /favicon.ico without reading the page links.
-for destination in (root/'favicon.ico', root/'dist/favicon.ico'):
-    shutil.copyfile(root/'assets/branding/favicon.ico', destination)
+for destination in (root, root/'dist'):
+    shutil.copyfile(root/'assets/branding/favicon.ico', destination/'favicon.ico')
+    shutil.copyfile(root/'static/site.webmanifest', destination/'site.webmanifest')
+    for name in ('apple-touch-icon.png', 'apple-touch-icon-precomposed.png', 'apple-touch-icon-v2.png'):
+        shutil.copyfile(root/'assets/branding/apple-touch-icon.png', destination/name)
 icon_revision=hashlib.sha256((root/'assets/branding/isaac.png').read_bytes()).hexdigest()[:12]
-head='<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="以撒忏悔道具图鉴、道具池查询与倒转骰子计算"><title>以撒道具手册</title><meta name="theme-color" content="#201f1b"><link rel="icon" href="assets/branding/favicon.ico?v='+icon_revision+'" sizes="16x16 32x32 48x48"><link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon.png?v='+icon_revision+'"><link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon.png?v='+icon_revision+'">'
+head='<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="以撒忏悔道具图鉴、道具池查询与倒转骰子计算"><title>以撒道具手册</title><meta name="theme-color" content="#201f1b"><link rel="icon" href="assets/branding/favicon.ico?v='+icon_revision+'" sizes="16x16 32x32 48x48"><link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon.png?v='+icon_revision+'"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-v2.png"><link rel="manifest" href="/site.webmanifest"><meta name="apple-mobile-web-app-title" content="以撒手册"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">'
 page=head+'<style>body{margin:0;background:#141413}*{box-sizing:border-box}</style></head><body>'+fragment+'</body></html>'
 (root/'dist/index.html').write_text(page)
 revision=hashlib.sha256((css+data+app).encode()).hexdigest()[:12]
