@@ -10,6 +10,7 @@ The Binding of Isaac 的游戏名称、商标、美术、道具图标、游戏�
 
 | 内容 | 来源与说明 |
 | --- | --- |
+| 网站图标（以撒角色像素图） | 用户选用的[中文灰机 Wiki 站点图标](https://av.huijiwiki.com/site_avatar_isaac_l.png)，检索于 2026-10-01。原文件保存在 `assets/branding/isaac.png`，另生成 PNG、ICO 和手机收藏尺寸。角色美术权利归游戏原权利人；收录与注明来源不代表已获 Wiki 或游戏权利人授权。 |
 | 道具图标、基础元数据和已有英文说明 | [Swashua/Bindings-of-Isaac-Cheat-Sheet](https://github.com/Swashua/Bindings-of-Isaac-Cheat-Sheet)。本地图标位于 `assets/items`，原始下载地址保存在 `data/catalog.json` 的 `iconSource` 字段。公开可访问不表示其素材已获重新授权。 |
 | 道具品质、道具池、充能及隐藏标记 | [Derugon/TBoIR-resources](https://github.com/Derugon/TBoIR-resources)。使用忏悔 1.7.9b 与忏悔+ 1.9.7.15 对应 XML，保存在 `data/sources`。该镜像仓库列出 Unlicense；其声明不替代游戏原权利人对游戏资源的权利。 |
 | 中文名称与拼音 | 沿用本项目已有的 `isaac-chinese-console` 来源数据；未确认更具体的原始仓库及许可，不宣称原创或已获自由再分发许可。 |
