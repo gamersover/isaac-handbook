@@ -55,7 +55,7 @@ const state={view:'all',query:'',poolQuery:'',spinTask:'sources',target:105,pool
 state.version=read('version','repentance')==='repentance-plus'?'repentance-plus':'repentance';
 loadEdition(state.version);
 let detailId=null, returnFocus=null, returnScroll=0, toastTimer, undoFavorite=null;
-let selectUI, drawerClosing=false, drawerVersion=0;
+let selectUI, calcUI, drawerClosing=false, drawerVersion=0;
 let drawerGesture=null, suppressSwipeClickUntil=0;
 const animations=new WeakMap(), renderKeys=new WeakMap();
 function motion(node,frames,duration=220){
@@ -78,7 +78,7 @@ function renderEdition(){
  $('#sourceDate').textContent='非官方道具手册 · 数据检索于 '+catalog.retrieved;
  $('#editionSource').href=catalog.sourceUrl||'https://github.com/Derugon/TBoIR-resources/tree/master/1.7.9b.J835/resources-dlc3';
  $('#poolSelect').innerHTML='<option value="all">全部道具池</option>'+catalog.pools.map(p=>`<option value="${p.key}">${esc(p.name)} (${p.count})</option>`).join('');
- $('#itemOptions').innerHTML=usable.map(x=>`<option value="${x.id} · ${esc(x.cn)}">${esc(x.en)}</option>`).join('');
+ calcUI?.close();calcUI?.sync();
  selectUI?.sync();
 }
 function switchEdition(key){
@@ -133,7 +133,7 @@ function goPage(page){state.page=page;render();showResults();}
 function hideSuggestions(){ $('#targetSuggestions').hidden=true;$('#searchInput').setAttribute('aria-expanded','false'); }
 
 const searchValues=x=>[String(x.id),'c'+x.id,x.cn,x.en,x.pinyin,x.initials,...(aliases[x.id]||[])];
-const exact=q=>items.find(x=>searchValues(x).some(v=>norm(v)===norm(q)));
+const exact=q=>norm(q)?items.find(x=>searchValues(x).some(v=>norm(v)===norm(q))):undefined;
 const match=(x,q)=>!q||[...searchValues(x),x.descriptionZh,x.description,x.quote,x.acquisition?.label,x.acquisition?.description].some(v=>norm(v).includes(norm(q)));
 const icon=x=>x.icon?`<img loading="lazy" src="${esc(x.icon)}" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="no-icon" hidden>#${x.id}</span>`:`<span class="no-icon">#${x.id}</span>`;
 const poolBadges=(x,limit=2)=>x.pools.slice(0,limit).map(p=>`<span class="pool-tag">${esc(pools.get(p.key)?.name||p.key)}</span>`).join('')+(x.pools.length>limit?`<span class="pool-more">+${x.pools.length-limit}</span>`:'');
@@ -171,6 +171,7 @@ function apply(reset=true){
  render();
 }
 function render(){
+ calcUI?.close();
  const isSpin=state.view==='spindown', isPools=state.view==='pools', isCalc=isSpin&&state.spinTask==='calculate';
  root.classList.toggle('spin-mode',isSpin);
  $('.workspace').hidden=isPools;$('#poolDirectory').hidden=!isPools;
@@ -462,11 +463,111 @@ root.addEventListener('keydown',e=>{
  }
 });
 
+function enhanceCalcInputs(){
+ let opened=null;
+ const controls=['calcFrom','calcTo'].map(id=>{
+  const input=$('#'+id),popup=document.createElement('div');
+  popup.id=id+'Options';popup.className='calc-options';popup.hidden=true;
+  popup.setAttribute('role','listbox');popup.setAttribute('aria-label',id==='calcFrom'?'选择当前道具':'选择目标道具');
+  root.append(popup);
+  return {input,popup,selection:$('#'+id+'Selection'),found:[],active:-1,composing:false};
+ });
+ function close(){
+  if(!opened)return;
+  opened.popup.hidden=true;opened.input.setAttribute('aria-expanded','false');opened.input.removeAttribute('aria-activedescendant');opened=null;
+ }
+ function sync(){
+  controls.forEach(c=>{
+   const x=resolveInput(c.input.value.trim());
+   $('#'+c.input.id+'Clear').hidden=!c.input.value;
+   c.selection.innerHTML=x&&!x.hidden?`${icon(x)}<span>${esc(x.cn)} <small>#${x.id}</small></span>`:'<span class="calc-unselected">尚未选择道具</span>';
+  });
+ }
+ function changed(c){
+  c.input.removeAttribute('aria-invalid');sync();
+  $('#calcResult').classList.remove('invalid');$('#calcResult').textContent='道具已更新，点击计算查看结果。';
+ }
+ function position(){
+  if(!opened)return;
+  const c=opened,r=c.input.getBoundingClientRect(),v=window.visualViewport;
+  const top=v?.offsetTop||0,left=v?.offsetLeft||0,width=v?.width||window.innerWidth,height=v?.height||window.innerHeight;
+  if(r.bottom<top||r.top>top+height){close();return;}
+  const below=top+height-r.bottom-8,above=r.top-top-8,up=below<200&&above>below;
+  const w=Math.min(Math.max(r.width,320),width-24),h=Math.max(48,Math.min(320,up?above:below));
+  c.popup.style.width=w+'px';c.popup.style.maxHeight=h+'px';
+  c.popup.style.left=Math.max(left+12,Math.min(r.left,left+width-w-12))+'px';
+  c.popup.style.top=(up?Math.max(top+8,r.top-c.popup.offsetHeight-6):r.bottom+6)+'px';
+ }
+ function highlight(c,index){
+  c.active=index;
+  [...c.popup.querySelectorAll('[role=option]')].forEach((node,i)=>{
+   node.classList.toggle('is-active',i===index);node.setAttribute('aria-selected',String(i===index));
+  });
+  const option=c.popup.querySelectorAll('[role=option]')[index];
+  if(option){c.input.setAttribute('aria-activedescendant',option.id);option.scrollIntoView?.({block:'nearest'});}
+  else c.input.removeAttribute('aria-activedescendant');
+ }
+ function show(c){
+  const wasOpen=opened===c;
+  if(opened!==c)close();
+  selectUI?.close();opened=c;
+  const q=c.input.value.trim(),selected=resolveInput(q);
+  const query=norm(q.replace(/^#/,''));
+  const matches=x=>!query||searchValues(x).some(v=>norm(v).includes(query));
+  // Exact matches lead the list; an already selected ID/name label also resolves.
+  const found=usable.filter(x=>x.id===selected?.id||matches(x));
+  found.sort((a,b)=>(b.id===selected?.id)-(a.id===selected?.id)||a.id-b.id);
+  c.found=found.slice(0,30);c.active=-1;
+  c.popup.innerHTML=c.found.length?c.found.map(x=>`<div class="calc-option" role="option" aria-selected="false" id="${c.input.id}-option-${x.id}" data-calc-option="${x.id}">${icon(x)}<span>${esc(x.cn)}<small>${esc(x.en)}</small></span><code>#${x.id}</code></div>`).join('')+`<div class="calc-options-note">${found.length>30?`显示前 30 / ${found.length} 件，继续输入可缩小范围`:'点选道具，或用 ↑ ↓ 和 Enter 选择'}</div>`:'<div class="calc-options-note" role="status">没有匹配的道具，试试中文名、俗称或 ID。</div>';
+  c.popup.hidden=false;c.input.setAttribute('aria-expanded','true');c.input.removeAttribute('aria-activedescendant');position();
+  if(!wasOpen)motion(c.popup,[{opacity:0,transform:'translateY(-4px)'},{opacity:1,transform:'translateY(0)'}],150);
+ }
+ function choose(c,id){
+  const x=byId.get(id);if(!x)return;
+  c.input.value=`${x.id} · ${x.cn}`;changed(c);close();c.input.focus?.({preventScroll:true});
+  // focus can reopen the suggestions when choosing by touch.
+  close();
+ }
+ controls.forEach(c=>{
+  $('#'+c.input.id+'Clear').addEventListener('click',()=>{c.input.value='';changed(c);c.input.focus?.({preventScroll:true});show(c);});
+  c.input.addEventListener('focus',()=>show(c));
+  c.input.addEventListener('click',()=>{if(opened!==c)show(c);});
+  c.input.addEventListener('input',()=>{changed(c);if(!c.composing)show(c);});
+  c.input.addEventListener('compositionstart',()=>{c.composing=true;close();});
+  c.input.addEventListener('compositionend',()=>{c.composing=false;changed(c);show(c);});
+  c.input.addEventListener('keydown',e=>{
+   if(c.composing||e.isComposing||e.keyCode===229)return;
+   if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+    e.preventDefault();if(opened!==c)show(c);
+    if(c.found.length)highlight(c,c.active<0?(e.key==='ArrowDown'?0:c.found.length-1):Math.max(0,Math.min(c.found.length-1,c.active+(e.key==='ArrowDown'?1:-1))));
+   }else if(e.key==='Enter'){
+    e.preventDefault();
+    if(opened===c&&c.active>=0)choose(c,c.found[c.active].id);
+    else if(opened===c&&c.found.length===1)choose(c,c.found[0].id);
+    else if(resolveInput(c.input.value.trim())){close();calculate();}
+    else show(c);
+   }else if(e.key==='Escape'){if(opened===c){e.preventDefault();e.stopPropagation();close();}}
+   else if(e.key==='Tab')close();
+  });
+  c.popup.addEventListener('mousedown',e=>e.preventDefault());
+  c.popup.addEventListener('click',e=>{const option=e.target.closest('[data-calc-option]');if(option)choose(c,Number(option.dataset.calcOption));});
+ });
+ document.addEventListener('pointerdown',e=>{if(opened&&e.target!==opened.input&&!opened.popup.contains(e.target))close();});
+ document.addEventListener('focusin',e=>{if(opened&&e.target!==opened.input&&!opened.popup.contains(e.target))close();});
+ window.addEventListener('resize',position);window.visualViewport?.addEventListener('resize',position);window.visualViewport?.addEventListener('scroll',position);
+ scroller.addEventListener('scroll',position,{passive:true});
+ sync();return {close,sync};
+}
 function resolveInput(value){
- const withId=value.match(/^\s*(\d+)\s*[·|]/);
- return withId?byId.get(Number(withId[1])):exact(value);
+ const withId=value.match(/^\s*(\d+)\s*[·|]\s*(.+)$/);
+ if(withId){
+  const item=byId.get(Number(withId[1]));
+  return item&&searchValues(item).some(v=>norm(v)===norm(withId[2]))?item:null;
+ }
+ return /^#\d+$/.test(value)?byId.get(Number(value.slice(1))):exact(value);
 }
 function calculate(){
+ calcUI?.close();calcUI?.sync();
  motion($('#calcResult'),[{opacity:.25,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],200);
  const from=resolveInput($('#calcFrom').value.trim()),to=resolveInput($('#calcTo').value.trim());
  const result=$('#calcResult');result.classList.remove('invalid');$('#calcFrom').setAttribute('aria-invalid',String(!from));$('#calcTo').setAttribute('aria-invalid',String(!to));
@@ -477,12 +578,11 @@ function calculate(){
 }
 $('#calcRun').addEventListener('click',calculate);
 $('#calcSwap').addEventListener('click',()=>{const v=$('#calcFrom').value;$('#calcFrom').value=$('#calcTo').value;$('#calcTo').value=v;calculate();});
-['#calcFrom','#calcTo'].forEach(s=>{
- $(s).addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
- $(s).addEventListener('input',()=>{$(s).removeAttribute('aria-invalid');$('#calcResult').classList.remove('invalid');$('#calcResult').textContent='输入已更新，点击计算或按 Enter 查看结果。';});
-});
+
 renderEdition();
+calcUI=enhanceCalcInputs();
 selectUI=window.IsaacSelect.enhance(root,{beforeOpen:native=>{
+ calcUI.close();
  // Settle the filter panel before measuring a popup anchored inside it.
  if(native.closest('.filters')&&$('.filters').classList.contains('is-expanded'))setFiltersOpen(true,true);
 }});

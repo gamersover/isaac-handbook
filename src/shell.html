@@ -32,7 +32,17 @@
           <section id="spinSummary" hidden>
             <div class="spin-tabs" role="group" aria-label="倒转查询方式"><button type="button" data-spin-task="sources" aria-pressed="true">找目标的来源</button><button type="button" data-spin-task="calculate" aria-pressed="false">计算两道具次数</button></div>
             <div id="spinSources"><div id="spinTarget" class="spin-target"></div><p class="spin-assumptions">下方按 ID 递增列出来源道具，次数表示“这件道具 → 目标”。隐藏和被截断的条目仍保留并标注。</p></div>
-            <section class="calculator" id="calculator" hidden aria-label="两道具计算"><h2>手上的道具，能倒转成目标吗？</h2><div class="calc-fields"><label>当前道具<input id="calcFrom" list="itemOptions" autocomplete="off" placeholder="名称或 ID，如 D20" value="D20"></label><button type="button" id="calcSwap" aria-label="交换当前道具和目标道具">⇄</button><label>目标道具<input id="calcTo" list="itemOptions" autocomplete="off" placeholder="名称或 ID，如 D6" value="D6"></label><button type="button" id="calcRun" class="primary-action">计算</button></div><datalist id="itemOptions"></datalist><div id="calcResult" class="calc-result" role="status" aria-live="polite">填写两个道具，计算方向与次数。</div></section>
+            <section class="calculator" id="calculator" hidden aria-label="两道具计算">
+              <h2>当前底座道具，能倒转成目标吗？</h2>
+              <p class="calc-help" id="calcHelp">输入中文名、英文名、拼音、俗称或 ID，从建议中选择道具。</p>
+              <div class="calc-fields">
+                <div class="calc-picker"><label for="calcFrom">当前道具</label><div class="calc-input-wrap"><input id="calcFrom" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="如 D20、二十面骰、166" value="D20" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="calcFromOptions" aria-describedby="calcHelp calcFromSelection"><button type="button" class="calc-clear" id="calcFromClear" aria-label="清空当前道具">×</button></div><div class="calc-selection" id="calcFromSelection"></div></div>
+                <button type="button" id="calcSwap" aria-label="交换当前道具和目标道具">⇄</button>
+                <div class="calc-picker"><label for="calcTo">目标道具</label><div class="calc-input-wrap"><input id="calcTo" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="如 D6、六面骰、105" value="D6" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="calcToOptions" aria-describedby="calcHelp calcToSelection"><button type="button" class="calc-clear" id="calcToClear" aria-label="清空目标道具">×</button></div><div class="calc-selection" id="calcToSelection"></div></div>
+                <button type="button" id="calcRun" class="primary-action">计算</button>
+              </div>
+              <div id="calcResult" class="calc-result" role="status" aria-live="polite">填写两个道具，计算方向与次数。</div>
+            </section>
             <p class="spin-assumptions">计算条件：全解锁、普通局、无车载电池。倒转只减少 ID；跳过空编号与隐藏道具，爸爸的便条会截断路线。</p>
           </section>
           <section id="catalogResults">

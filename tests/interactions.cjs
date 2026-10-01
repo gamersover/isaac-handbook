@@ -201,6 +201,52 @@ test('Saved edition loads on startup, and invalid preferences safely fall back',
  }
 });
 
+test('Calculator replaces native datalist with searchable icon/name/ID suggestions',()=>{
+ click('[data-view="spindown"]');click('[data-spin-task="calculate"]');
+ assert.equal($('#calcFrom').hasAttribute('list'),false);assert.equal($('datalist'),null);
+ input('#calcFrom','红稿子');assert.equal($('#calcFrom').getAttribute('aria-expanded'),'true');
+ const option=$('#calcFromOptions [data-calc-option="481"]');assert.ok(option);assert.ok(option.querySelector('img'));assert.ok(option.textContent.includes('Dataminer'));
+ click('#calcFromOptions [data-calc-option="481"]');assert.equal($('#calcFrom').value,'481 · 数据破解');
+ assert.equal($('#calcFromOptions').hidden,true);assert.ok($('#calcFromSelection').textContent.includes('#481'));
+ input('#calcTo','D6');click('#calcToOptions [data-calc-option="105"]');click('#calcRun');assert.ok($('#calcResult').textContent.includes('#481'));assert.ok($('#calcResult').textContent.includes('#105'));
+});
+test('Calculator ranks exact IDs first and supports keyboard choice without premature calculation',()=>{
+ input('#calcFrom','166');assert.equal($('#calcFromOptions [role=option]').dataset.calcOption,'166');
+ key('#calcFrom','ArrowDown');assert.ok($('#calcFrom').getAttribute('aria-activedescendant').endsWith('-166'));
+ key('#calcFrom','Enter');assert.ok($('#calcFrom').value.startsWith('166 ·'));assert.ok($('#calcResult').textContent.includes('已更新'));
+ input('#calcTo','liu');assert.ok($('#calcToOptions [data-calc-option="105"]'));
+ input('#calcTo','D6');key('#calcTo','ArrowDown');key('#calcTo','Enter');key('#calcTo','Enter');
+ assert.ok($('#calcResult').textContent.includes('61 次'));
+});
+test('Calculator handles empty and unmatched queries and dismisses popups predictably',()=>{
+ click('#calcFromClear');assert.equal($('#calcFrom').value,'');assert.equal($('#calcFromClear').hidden,true);
+ assert.equal($$('#calcFromOptions [role=option]').length,30);assert.ok($('#calcFromOptions').textContent.includes('继续输入'));
+ click('#calcRun');assert.equal($('#calcFrom').getAttribute('aria-invalid'),'true');
+ input('#calcFrom','__no_such_collectible__');assert.equal($$('#calcFromOptions [role=option]').length,0);assert.ok($('#calcFromOptions').textContent.includes('没有匹配'));
+ key('#calcFrom','Escape');assert.equal($('#calcFromOptions').hidden,true);
+ input('#calcFrom','D20');input('#calcTo','D6');assert.equal($('#calcFromOptions').hidden,true);assert.equal($('#calcToOptions').hidden,false);
+ key('#calcTo','Tab');assert.equal($('#calcToOptions').hidden,true);
+ input('#calcFrom','D20');$('#calcRun').dispatchEvent(new window.Event('pointerdown',{bubbles:true}));assert.equal($('#calcFromOptions').hidden,true);
+ input('#calcFrom','D20');click('[data-view="all"]');assert.equal($('#calcFromOptions').hidden,true);
+});
+test('Calculator respects Chinese IME composition and does not calculate on its Enter key',()=>{
+ click('[data-view="spindown"]');click('[data-spin-task="calculate"]');
+ $('#calcFrom').dispatchEvent(new window.Event('compositionstart'));input('#calcFrom','二十');key('#calcFrom','Enter');
+ assert.equal($('#calcFromOptions').hidden,true);assert.ok($('#calcResult').textContent.includes('已更新'));
+ $('#calcFrom').dispatchEvent(new window.Event('compositionend'));assert.equal($('#calcFromOptions').hidden,false);
+ assert.ok($('#calcFromOptions [data-calc-option="166"]'));click('#calcFromOptions [data-calc-option="166"]');
+});
+test('Mismatched ID/name input is rejected instead of silently using the old ID',()=>{
+ input('#calcFrom','166 · D6');input('#calcTo','D6');click('#calcRun');assert.equal($('#calcFrom').getAttribute('aria-invalid'),'true');
+ assert.ok(!$('#calcResult').textContent.includes('61 次'));
+ input('#calcFrom','166 · D20');input('#calcTo','#105');click('#calcRun');assert.ok($('#calcResult').textContent.includes('61 次'));
+ click('#calcSwap');assert.ok($('#calcFromSelection').textContent.includes('#105'));assert.ok($('#calcToSelection').textContent.includes('#166'));assert.ok($('#calcResult').textContent.includes('不能到达'));
+});
+test('Edition changes dismiss calculator suggestions and invalidate their previous result',()=>{
+ input('#calcFrom','D20');change('#versionSelect','repentance');assert.equal($('#calcFromOptions').hidden,true);
+ assert.ok($('#calcResult').textContent.includes('版本已切换'));
+});
+
 let mobileSwipe=true;
 window.matchMedia=query=>({matches:query.includes('max-width: 560px')?mobileSwipe:query.includes('prefers-reduced-motion')});
 const touch=(type,x,y,{target='#drawerContent',count=1,cancelable=true}={})=>{
