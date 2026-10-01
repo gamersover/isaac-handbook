@@ -69,9 +69,9 @@ GitHub 仓库：[gamersover/isaac-handbook](https://github.com/gamersover/isaac-
 
 `assets/items` 已包含全部道具图标，常规构建无需联网下载。需要重新缓存图标时运行 `python3 scripts/cache_icons.py`。
 
-自定义域名为 `issac.caoqinping.com`。先在 Pages 中添加自定义域名，再在腾讯云 DNSPod 中为 `issac` 添加 CNAME，指向 Pages 为项目分配的域名；无需迁移主域名的 DNS。
+自定义域名为 [isaac.caoqinping.com](https://isaac.caoqinping.com/)。先在 Pages 中添加自定义域名，再在腾讯云 DNSPod 中为 `isaac` 添加 CNAME，指向 Pages 为项目分配的域名；无需迁移主域名的 DNS。
 
-本项目对应的解析为：主机记录 `issac`，类型 `CNAME`，记录值 `isaac-handbook.pages.dev`，线路默认，TTL `600` 秒。HTTPS 由 Cloudflare 自动签发与续期，不需要额外上传腾讯云证书。
+本项目对应的解析为：主机记录 `isaac`，类型 `CNAME`，记录值 `isaac-handbook.pages.dev`，线路默认，TTL `600` 秒。HTTPS 由 Cloudflare 自动签发与续期，不需要额外上传腾讯云证书。
 
 ## 版权与第三方来源
 
