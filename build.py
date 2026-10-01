@@ -72,9 +72,14 @@ inline=inline.replace('\n</script>','\n})();\n</script>')
 (root/'dist').mkdir(exist_ok=True)
 shutil.copytree(root/'assets',root/'dist/assets',dirs_exist_ok=True)
 shutil.copyfile(root/'static/_headers',root/'dist/_headers')
-page='<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="以撒忏悔道具图鉴、道具池查询与倒转骰子计算"><title>以撒道具手册</title><style>body{margin:0;background:#141413}*{box-sizing:border-box}</style></head><body>'+fragment+'</body></html>'
+# Keep icons identical in local previews and production. The root ICO also
+# serves browsers that request /favicon.ico without reading the page links.
+for destination in (root/'favicon.ico', root/'dist/favicon.ico'):
+    shutil.copyfile(root/'assets/branding/favicon.ico', destination)
+head='<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="以撒忏悔道具图鉴、道具池查询与倒转骰子计算"><title>以撒道具手册</title><meta name="theme-color" content="#201f1b"><link rel="icon" href="assets/branding/favicon.ico" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="assets/branding/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon.png">'
+page=head+'<style>body{margin:0;background:#141413}*{box-sizing:border-box}</style></head><body>'+fragment+'</body></html>'
 (root/'dist/index.html').write_text(page)
 revision=hashlib.sha256((css+data+app).encode()).hexdigest()[:12]
-(root/'index.html').write_text('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>以撒道具手册</title><link rel="stylesheet" href="src/styles.css?v='+revision+'"><style>body{margin:0;background:#141413}*{box-sizing:border-box}</style></head><body>'+shell+'<script src="src/data.js?v='+revision+'"></script><script src="src/select.js?v='+revision+'"></script><script src="src/app.js?v='+revision+'"></script></body></html>')
+(root/'index.html').write_text(head+'<link rel="stylesheet" href="src/styles.css?v='+revision+'"><style>body{margin:0;background:#141413}*{box-sizing:border-box}</style></head><body>'+shell+'<script src="src/data.js?v='+revision+'"></script><script src="src/select.js?v='+revision+'"></script><script src="src/app.js?v='+revision+'"></script></body></html>')
 if args.preview: Path(args.preview).write_text(inline)
 print('Built:',len(page.encode()),'bytes; inline:',len(inline.encode()),'bytes')

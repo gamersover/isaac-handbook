@@ -1,6 +1,8 @@
 node_modules/
 dist/
 index.html
+favicon.ico
+!assets/branding/favicon.ico
 src/data.js
 __pycache__/
 *.pyc
