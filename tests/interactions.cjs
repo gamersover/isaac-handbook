@@ -201,4 +201,55 @@ test('Saved edition loads on startup, and invalid preferences safely fall back',
  }
 });
 
+let mobileSwipe=true;
+window.matchMedia=query=>({matches:query.includes('max-width: 560px')?mobileSwipe:query.includes('prefers-reduced-motion')});
+const touch=(type,x,y,{target='#drawerContent',count=1,cancelable=true}={})=>{
+ const e=new window.Event(type,{bubbles:true,cancelable});
+ const point={identifier:1,clientX:x,clientY:y};
+ e.touches=type==='touchend'||type==='touchcancel'?[]:Array.from({length:count},(_,i)=>({...point,identifier:i+1}));
+ e.changedTouches=[point];$(target).dispatchEvent(e);return e;
+};
+const swipe=(x=180,y=204)=>{touch('touchstart',40,200);touch('touchmove',x,y);touch('touchend',x,y);};
+test('Mobile right swipe closes the first detail and restores the list position',()=>{
+ change('#versionSelect','repentance');openDetail(283);click('#drawerClose');$('#contentScroll').scrollTop=340;click('[data-open="283"]');
+ assert.equal($('#swipeHint').textContent,'右滑返回列表');swipe();
+ assert.equal($('#drawer').hidden,true);assert.equal($('#contentScroll').scrollTop,340);
+ assert.equal($('.app-shell').hasAttribute('inert'),false);assert.equal($('#drawer').style.transform,'');
+});
+test('Right swipe returns one detail at a time and restores its reading position',()=>{
+ openDetail(283);const title=$('#detailTitle').textContent;
+ $('#drawerContent').scrollTop=180;$('#drawerContent .original-text').open=true;
+ click('#drawerContent .item-reference[data-open="105"]');assert.equal($('#swipeHint').textContent,'右滑返回上一件');
+ swipe();assert.equal($('#detailTitle').textContent,title);assert.equal($('#drawer').hidden,false);
+ assert.equal($('#drawerContent').scrollTop,180);assert.equal($('#drawerContent .original-text').open,true);
+ assert.equal($('#drawerBack').hidden,true);assert.equal($('.app-shell').hasAttribute('inert'),true);
+ swipe();assert.equal($('#drawer').hidden,true);
+});
+test('Vertical, diagonal, left and short gestures do not navigate',()=>{
+ openDetail(283);const title=$('#detailTitle').textContent;
+ for(const [x,y] of [[45,350],[160,360],[10,202],[85,201]]){
+  swipe(x,y);assert.equal($('#drawer').hidden,false);assert.equal($('#detailTitle').textContent,title);
+  assert.equal($('#drawer').style.transform,'');
+ }
+ touch('touchstart',40,200);const vertical=touch('touchmove',43,260);assert.equal(vertical.defaultPrevented,false);
+ touch('touchmove',220,261);touch('touchend',220,261);assert.equal($('#drawer').hidden,false);
+});
+test('Canceled gestures, multitouch and noncancelable scrolling recover without navigating',()=>{
+ for(const cancel of ['touchcancel','multitouch','noncancelable']){
+  touch('touchstart',40,200);assert.equal(touch('touchmove',140,202).defaultPrevented,true);
+  if(cancel==='touchcancel')touch('touchcancel',140,202);
+  else touch('touchmove',180,203,cancel==='multitouch'?{count:2}:{cancelable:false});
+  touch('touchend',220,204);assert.equal($('#drawer').hidden,false);assert.equal($('#drawer').style.transform,'');
+  assert.equal($('#drawerBackdrop').style.opacity,'');
+ }
+});
+test('Controls and desktop touch gestures retain their normal behavior',()=>{
+ touch('touchstart',40,200,{target:'#detailFavorite'});touch('touchmove',180,204);touch('touchend',180,204);
+ assert.equal($('#drawer').hidden,false);
+ mobileSwipe=false;swipe();assert.equal($('#drawer').hidden,false);mobileSwipe=true;
+ touch('touchstart',40,200);touch('touchmove',170,204);click('#drawerClose');
+ assert.equal($('#drawer').hidden,true);assert.equal($('#drawer').style.transform,'');
+ touch('touchend',180,204);assert.equal($('#drawer').hidden,true);
+});
+
 console.log(JSON.stringify({passed:results.length,tests:results},null,2));
