@@ -1,0 +1,11 @@
+{
+  "version": "Repentance+ 1.9.7.15",
+  "branch": "1.9.7.15.J374",
+  "retrieved": "2026-10-01",
+  "url": "https://github.com/Derugon/TBoIR-resources/tree/1.9.7.15.J374/resources",
+  "files": {
+    "items.xml": "c21ffd5513bd7da93ab461c4640843d4c445c4a34efd208d877bb45c31bef431",
+    "items_metadata.xml": "a3f33024c3aa455b5a44cae50ae012a355f86bd7a21366ded592845f1d057bdd",
+    "itempools.xml": "9261ce14b4b65e15045deaac240c7ac46ccb87e55f455e2b0df95fcee4928ede"
+  }
+}

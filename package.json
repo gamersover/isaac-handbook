@@ -1,0 +1,14 @@
+{
+  "name": "isaac-codex-handbook",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Repentance collectible catalog, item pools and Spindown calculator",
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "python3 tests/data_quality.py && node tests/interactions.cjs",
+    "start": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.13"
+  }
+}

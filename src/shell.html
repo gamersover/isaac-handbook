@@ -1,0 +1,56 @@
+<div id="isaac-preview">
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand-block"><div class="brand-mark" aria-hidden="true">I</div><div><div class="brand">以撒道具手册</div><div class="subtitle">忏悔 · 忏悔+</div></div></div>
+    <div class="topbar-controls"><div id="sourceStatus" class="source-status"></div><div class="edition-control"><select id="versionSelect" aria-label="游戏版本"><option value="repentance">忏悔 · 1.7.9b</option><option value="repentance-plus">忏悔+ · 1.9.7.15</option></select></div></div>
+  </header>
+  <div class="toolbar">
+    <nav class="quick-actions" aria-label="手册栏目">
+      <button type="button" class="chip active" data-view="all">道具图鉴</button><button type="button" class="chip" data-view="pools">道具池</button><button type="button" class="chip" data-view="spindown">倒转骰子</button><button type="button" class="chip" data-view="favorites">收藏 <span id="favoriteCount">0</span></button><button type="button" class="chip" data-view="recent">最近查看</button>
+    </nav>
+    <section class="command-deck">
+      <div class="search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input id="searchInput" aria-label="搜索道具" autocomplete="off" placeholder="搜索名称、ID、拼音或效果"><button type="button" id="clearSearch" aria-label="清除搜索" hidden>×</button><kbd>/</kbd></div>
+      <button type="button" class="secondary-action filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">筛选</button>
+      <div id="targetSuggestions" class="target-suggestions" hidden aria-label="选择目标道具"></div>
+    </section>
+  </div>
+  <main class="content-scroll" id="contentScroll">
+    <div class="content-inner">
+      <div class="catalog-heading"><div><button type="button" class="text-button" id="backPools" hidden>← 返回道具池</button><h1 id="viewTitle">全部道具</h1><p id="viewDescription">按名称查找，或通过品质和道具池缩小范围。</p></div><span class="version-label">Repentance 1.7.9b</span></div>
+      <section id="poolDirectory" hidden><div class="directory-head"><p>选择道具池查看道具；贪婪模式的道具池单独列出。</p><label>模式 <select id="poolMode" aria-label="道具池模式"><option value="all">全部模式</option><option value="normal">普通局</option><option value="greed">贪婪模式</option></select></label></div><div id="poolGrid" class="pool-grid"></div><p class="source-footnote">同一道具可属于多个池。池内初始权重不等于掉落概率。</p></section>
+      <section class="workspace">
+        <aside class="filters" id="filterPanel" aria-label="图鉴筛选">
+          <div class="filter-head"><strong>筛选道具</strong><button type="button" class="text-button" id="resetFilters">重置</button></div>
+          <div class="filter-section"><label class="filter-title" for="poolSelect">道具池</label><select id="poolSelect"></select></div>
+          <div class="filter-section"><label class="filter-title" for="sortSelect">排序</label><select id="sortSelect"><option value="id-asc">ID 从小到大</option><option value="id-desc">ID 从大到小</option><option value="quality-desc">品质从高到低</option><option value="name">英文名 A–Z</option></select></div>
+          <div class="filter-section"><label class="filter-title" for="qualitySelect">品质</label><select id="qualitySelect"><option value="all">全部品质</option><option value="0">Q0</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option></select></div>
+          <div class="filter-section"><div class="filter-title">类型</div><label class="check"><input type="checkbox" data-type="Passive" checked> 被动道具</label><label class="check"><input type="checkbox" data-type="Activated" checked> 主动道具</label></div>
+          <button type="button" class="primary-action filter-done" id="filterDone">查看结果</button>
+          <p class="source-note" id="editionNote"></p>
+        </aside>
+        <section class="catalog-area">
+          <section id="spinSummary" hidden>
+            <div class="spin-tabs" role="group" aria-label="倒转查询方式"><button type="button" data-spin-task="sources" aria-pressed="true">找目标的来源</button><button type="button" data-spin-task="calculate" aria-pressed="false">计算两道具次数</button></div>
+            <div id="spinSources"><div id="spinTarget" class="spin-target"></div><p class="spin-assumptions">下方按 ID 递增列出来源道具，次数表示“这件道具 → 目标”。隐藏和被截断的条目仍保留并标注。</p></div>
+            <section class="calculator" id="calculator" hidden aria-label="两道具计算"><h2>手上的道具，能倒转成目标吗？</h2><div class="calc-fields"><label>当前道具<input id="calcFrom" list="itemOptions" autocomplete="off" placeholder="名称或 ID，如 D20" value="D20"></label><button type="button" id="calcSwap" aria-label="交换当前道具和目标道具">⇄</button><label>目标道具<input id="calcTo" list="itemOptions" autocomplete="off" placeholder="名称或 ID，如 D6" value="D6"></label><button type="button" id="calcRun" class="primary-action">计算</button></div><datalist id="itemOptions"></datalist><div id="calcResult" class="calc-result" role="status" aria-live="polite">填写两个道具，计算方向与次数。</div></section>
+            <p class="spin-assumptions">计算条件：全解锁、普通局、无车载电池。倒转只减少 ID；跳过空编号与隐藏道具，爸爸的便条会截断路线。</p>
+          </section>
+          <section id="catalogResults">
+            <div id="activeFilters"><span id="filterSummary"></span><div id="filterChips"></div></div>
+            <div class="result-head" tabindex="-1"><div><b id="resultCount">0</b> 个条目 <span id="resultRange" aria-live="polite"></span></div><label class="page-size-label">每页 <select id="pageSize" aria-label="每页道具数"><option value="24">24</option><option value="48">48</option><option value="96">96</option></select></label></div>
+            <div class="item-grid" id="itemGrid"></div><div class="empty-state" id="emptyState" hidden></div>
+            <div class="preview-pages"><button type="button" class="chip" id="pagePrev">上一页</button><span id="pageLabel" aria-live="polite"></span><button type="button" class="chip" id="pageNext">下一页</button><label class="page-jump">跳至 <input type="number" id="pageJump" min="1" aria-label="跳转页码"> 页</label></div>
+          </section>
+        </section>
+      </section>
+      <footer class="site-footer"><span id="sourceDate">非官方道具手册</span><span>游戏名称、美术及道具图标权利归原权利人</span><a href="https://github.com/gamersover/isaac-handbook/blob/main/NOTICE.md" target="_blank" rel="noopener noreferrer">版权与来源 ↗</a><a id="editionSource" href="https://github.com/Derugon/TBoIR-resources/tree/master/1.7.9b.J835/resources-dlc3" target="_blank" rel="noopener noreferrer">版本数据来源 ↗</a></footer>
+    </div>
+  </main>
+</div>
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="detailTitle" aria-hidden="true" hidden>
+  <div class="drawer-header"><button type="button" class="drawer-back" id="drawerBack" hidden>← 返回</button><span>道具详情</span><button type="button" class="d-fav" id="detailFavorite">☆ 收藏</button><button type="button" class="drawer-close" id="drawerClose" aria-label="关闭详情">×</button></div>
+  <div id="drawerContent" class="drawer-scroll"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+</div>

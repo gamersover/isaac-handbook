@@ -1,0 +1,270 @@
+{
+  "version": "Repentance+ 1.9.7.15",
+  "label": "忏悔+",
+  "patch": "1.9.7.15",
+  "descriptionScope": "按 1.9.7.15 资料整理主要效果与联动差异；未逐项进行游戏内验证。",
+  "sources": {
+    "release": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311",
+    "1.9.7.9": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1791482680848177",
+    "1.9.7.11": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803",
+    "1.9.7.13": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+  },
+  "items": {
+    "38": {
+      "descriptionZh": "向周围发射 10 颗泪弹，继承角色的泪弹属性与特殊效果，每颗额外增加 25 点伤害。 使用后的举起动画缩短，可更快恢复射击。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "56": {
+      "descriptionZh": "留下伤害敌人的黄色水迹；范围比忏悔更大，并持续到离开房间。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "351": {
+      "descriptionZh": "释放覆盖全房间的巨大毒屁，使敌人中毒、石化并被击退，造成 100 点伤害；可摧毁障碍物并炸开门。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "436": {
+      "descriptionZh": "获得紧随角色、阻挡弹幕的牛奶跟班。挡下 10 次攻击后杯子破裂，本层射速 +1；进入下一层时恢复。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "510": {
+      "descriptionZh": "召唤一个友方精神错乱首领，能跟随角色穿过房间，同时只能存在一个。其生命会逐渐衰减，直至剩余 1 点；每次普通受击损失 1 点生命，爆炸损失 5 点，不受尖刺、火焰和红色大便伤害。充能固定为 12 格。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "685": {
+      "descriptionZh": "召唤能射击、挡弹和造成接触伤害的环绕灵火。首次生成 2 个，以后每次使用增加 1 个，最多 12 个；灵火更容易具有特殊效果。充能为 12 格。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "706": {
+      "descriptionZh": "吞噬房间内的道具底座，为每件道具生成一只永久攻击蝗虫。基础伤害随被吞道具品质变化：Q0 为角色伤害的 0.5 倍，Q1 为 0.75 倍，Q2 为 1 倍，Q3 为 1.5 倍，Q4 为 2 倍；部分道具生成具有特殊能力的蝗虫。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "711": {
+      "descriptionZh": "道具底座背后出现第二个幽灵道具，使用后交换实体与幽灵道具；堕化拉撒路使用时还会切换生死形态。 堕化拉撒路使用时只需 4 格充能，其他角色仍为 6 格。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "177": {
+      "descriptionZh": "消耗 1 枚硬币进行一次老虎机抽奖，有概率生成随机掉落物。可作为老虎机奖励获得，不再出现在普通商店道具池中。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311",
+      "acquisition": {
+        "label": "老虎机奖励",
+        "description": "可以由老虎机奖励获得。忏悔+中已从普通商店道具池移除。",
+        "sourceLabel": "忏悔+更新说明",
+        "sourceUrl": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+      }
+    },
+    "477": {
+      "descriptionZh": "吸收房间内全部道具底座：吸收主动道具会将其效果加入虚空，吸收被动道具会给予随机属性提升。 充能降为 4 格。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "368": {
+      "descriptionZh": "持续朝同一方向射击会平滑提高射速，不再分阶段跳升；停止射击或改变方向会重置增益。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "398": {
+      "descriptionZh": "泪弹有 20% 概率缩小敌人，使其逃跑，可踩过并碾死。缩小的敌人在恢复前闪白；被缩小时死亡产生的爆炸、弹幕或召唤物不会伤害角色。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "470": {
+      "descriptionZh": "死寂跟班在房间内弹跳并造成接触伤害；角色射击时它会停住、阻挡弹幕，并向四周发射泪弹。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "560": {
+      "descriptionZh": "受伤时释放一圈泪弹并提高本房间射速；本房间内泪弹落地后还会留下伤害敌人的血迹。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "593": {
+      "descriptionZh": "双击移动方向立即冲刺，期间无敌并伤害敌人；冲刺后短暂无敌。碰撞会在周围产生点燃敌人的火圈，撞到敌人时会弹开；不再生成破坏岩石的裂缝，也不能利用冲刺免费使用献血机或恶魔乞丐。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "632": {
+      "descriptionZh": "幸运 +2。免疫灼烧、混乱、恐惧和毒气，以及蜘蛛网减速、火焰攻击、火堆和毒蘑菇伤害；接触敌方水迹后的前 1 秒免伤。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "657": {
+      "descriptionZh": "敌人死亡时释放继承角色泪弹效果的友方血块弹幕，更容易与敌方弹幕区分。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "681": {
+      "descriptionZh": "双击射击方向发射黑洞宝宝，吞噬沿途掉落物后变大、提高接触伤害并生成蓝苍蝇。吃够掉落物且清空房间后，生成通往储物房的传送门，跟班本层消失。储物房可存取物品，内容在本局内持续保留。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "447": {
+      "descriptionZh": "连续射击 4 秒后产生气云。气云最初较小、伤害较高，随后在 10 秒内逐渐扩大、降低伤害；泪弹可推动它。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "594": {
+      "descriptionZh": "增加 2 个红心容器并恢复 2 颗红心，移速 -0.3。静止时积蓄速度，移动时释放毒气。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "294": {
+      "descriptionZh": "放屁击退附近敌人和弹幕；敌人撞到墙壁或障碍物会受到 12 点伤害。 每 2 秒可再次使用。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "111": {
+      "descriptionZh": "放出毒屁，使附近敌人中毒；每 4 秒可再次使用，无需清房充能。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "421": {
+      "descriptionZh": "放屁魅惑附近敌人；每 4 秒可再次使用，无需清房充能。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "117": {
+      "descriptionZh": "受伤后召唤自动追击敌人的鸟。角色生命不高于半颗心时可跨房间保留（夏娃为一颗心）；换层时重置。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "481": {
+      "descriptionZh": "本房间内扭曲画面与音乐，随机提高一项属性、降低另一项属性，并赋予临时随机泪弹效果；同时将房间中的道具底座重置为错误道具。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1783238125358311"
+    },
+    "381": {
+      "descriptionZh": "射速 +0.7；下一局开局额外获得随机道具，最多继承 2 件伊甸的祝福奖励。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1791482680848177"
+    },
+    "660": {
+      "descriptionZh": "每层起始房间生成两个传送门，离开后消失：红色通往首领房，黄色通往宝物房，蓝色通往隐藏房，绿色通往商店。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1791482680848177"
+    },
+    "281": {
+      "descriptionZh": "获得在房间内移动、吸引敌人攻击的诱饵跟班；同时能阻挡敌方弹幕。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "329": {
+      "descriptionZh": "用一颗可自由控制、悬浮于障碍物之上的泪弹替代普通射击；停留在敌人身上会持续造成伤害。 额外增加 0.2 弹速。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "651": {
+      "descriptionZh": "星星跟班沿路线缓慢前往首领房。站在光环内获得追踪泪弹，射速乘以 2.5、伤害乘以 1.2，并有 50% 概率忽略伤害；加成调整为与圣地一致。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "482": {
+      "descriptionZh": "随机变为另一名角色，并有 50% 概率移除最后获得的道具。获得新角色固有的初始被动道具，下次换角色时失去这些固有道具。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "631": {
+      "descriptionZh": "将房间内敌人分裂为两个更小、生命值更低的个体。 分裂天使首领时只会奖励一块钥匙碎片。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "689": {
+      "descriptionZh": "道具底座在 5 件随机道具间轮换，拾取当前显示的道具。暂停游戏不会停止轮换，反而会短暂加快。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "127": {
+      "descriptionZh": "以新布局重新开始当前楼层。消耗遗忘药，保留其他道具及已获得的消耗品。 若超级撒但的门已经开启，重置后仍保持开启。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "258": {
+      "descriptionZh": "拾取时及每次进入下一层时，随机重置角色的被动道具和属性。 已解锁的角色固有初始被动道具会被保留，不参与重置；初始主动道具不受此保护。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "283": {
+      "descriptionZh": "同时触发一面骰、四面骰、六面骰、七面骰、八面骰、十面骰、十二面骰和二十面骰的效果。 已解锁的角色固有初始被动道具会被保留，不参与重置；初始主动道具不受此保护。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "284": {
+      "descriptionZh": "重置角色持有的全部被动道具。 已解锁的角色固有初始被动道具会被保留，不参与重置；初始主动道具不受此保护。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1798454487588803"
+    },
+    "643": {
+      "descriptionZh": "获得飞行；正常射击之外，可蓄力发射高伤害圣光激光。拾取时不再给予 2 颗魂心。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "475": {
+      "descriptionZh": "消耗道具，对房间内所有敌人造成致命伤害，随后杀死角色。对精神错乱和母亲战斗延长了死亡等待时间，使首领死亡动画能够播完。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "441": {
+      "descriptionZh": "持续约 15 秒发射巨型高伤害激光，后坐力推动角色；进出房间和楼层时仍可持续。 普通电池、九伏特、电池组和 48 小时能量胶囊现在提供 6 格充能，而不是 3 格。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "356": {
+      "descriptionZh": "主动道具每次使用会连续触发两次效果。 扩展了与凝胶宝宝、彼列之书、红蜡烛、蜡烛、遥控炸弹、意念移物和超级喷射的联动。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "120": {
+      "descriptionZh": "射速 +1.7、移速 +0.3，但降低伤害；射速提升可突破通常的射速上限。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "390": {
+      "descriptionZh": "获得发射追踪泪弹的天使跟班，每颗泪弹造成 10 点伤害。 计入撒拉弗变身所需道具。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "554": {
+      "descriptionZh": "使附近敌人恐惧；同时增加 0.5 射速和 0.2 弹速。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "420": {
+      "descriptionZh": "移动留下黑色粉末，走成闭合圆圈后产生持续伤害敌人的法阵；同时扩大角色爆炸范围，熄灭的火堆会爆炸。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "186": {
+      "descriptionZh": "消耗 1 颗心，对全房间敌人造成 40 点伤害，并提高当前房间的射速；同房间后续使用只消耗半颗心，优先消耗红心。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "141": {
+      "descriptionZh": "生成 7 枚随机硬币，并额外生成一件随机的硬币类饰品。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "487": {
+      "descriptionZh": "失去 1 个红心容器，获得伤害和射程提升，并获得一个肉块。 若已持有绷带球，会改为推进绷带女孩的成长。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "413": {
+      "descriptionZh": "累计拾取一定数量的生命恢复物后，永久获得一个天使类跟班。 店主和堕化店主通过硬币恢复生命也会计入进度。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    },
+    "104": {
+      "descriptionZh": "泪弹碰撞后分裂成两颗较小的泪弹。 在忏悔+中也能与科技X产生分裂联动。",
+      "description": "",
+      "descriptionSource": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1810503566367174"
+    }
+  }
+}
