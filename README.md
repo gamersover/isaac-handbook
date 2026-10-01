@@ -63,11 +63,15 @@ npm start
 
 ## Cloudflare Pages 部署
 
+GitHub 仓库：[gamersover/isaac-handbook](https://github.com/gamersover/isaac-handbook)。Pages 项目名为 `isaac-handbook`，默认地址为 [isaac-handbook.pages.dev](https://isaac-handbook.pages.dev/)。
+
 使用 GitHub 集成，生产分支为 `main`，框架预设选择 `None`，构建命令为 `npm run build && npm test`，输出目录为 `dist`。构建依赖 Node.js 和 Python 3，不需要服务器或数据库。每次推送后由 Cloudflare 构建并发布。
 
 `assets/items` 已包含全部道具图标，常规构建无需联网下载。需要重新缓存图标时运行 `python3 scripts/cache_icons.py`。
 
 自定义域名为 `issac.caoqinping.com`。先在 Pages 中添加自定义域名，再在腾讯云 DNSPod 中为 `issac` 添加 CNAME，指向 Pages 为项目分配的域名；无需迁移主域名的 DNS。
+
+本项目对应的解析为：主机记录 `issac`，类型 `CNAME`，记录值 `isaac-handbook.pages.dev`，线路默认，TTL `600` 秒。HTTPS 由 Cloudflare 自动签发与续期，不需要额外上传腾讯云证书。
 
 ## 版权与第三方来源
 
