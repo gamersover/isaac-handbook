@@ -5,6 +5,7 @@ src/data.js
 __pycache__/
 *.pyc
 .DS_Store
+.artifacts/
 .env
 .env.*
 !.env.example
